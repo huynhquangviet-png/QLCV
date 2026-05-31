@@ -1,0 +1,83 @@
+/* variables.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Brand Colors (Curated HSL) */
+  --primary-h: 250;
+  --primary-s: 84%;
+  --primary-l: 54%;
+  --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l)); /* Indigo */
+  --primary-light: hsl(var(--primary-h), var(--primary-s), 95%);
+  --primary-hover: hsl(var(--primary-h), var(--primary-s), 45%);
+  
+  /* Functional Colors */
+  --success: hsl(142, 70%, 45%); /* Emerald */
+  --success-light: hsl(142, 70%, 95%);
+  --warning: hsl(38, 92%, 50%); /* Amber */
+  --warning-light: hsl(38, 92%, 95%);
+  --danger: hsl(350, 89%, 60%); /* Crimson */
+  --danger-light: hsl(350, 89%, 96%);
+  --info: hsl(199, 89%, 48%); /* Sky blue */
+  --info-light: hsl(199, 89%, 95%);
+  
+  /* Light Theme Specific variables */
+  --bg-app: #f4f6fa;
+  --bg-sidebar: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.8);
+  --card-bg: #ffffff;
+  --card-border: rgba(226, 232, 240, 0.8);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --border-color: #e2e8f0;
+  --input-bg: #f8fafc;
+  
+  /* Glassmorphism details */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  
+  /* Common parameters */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-premium: 0 20px 25px -5px rgba(99, 102, 241, 0.05), 0 10px 10px -5px rgba(99, 102, 241, 0.02);
+  
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Theme Specific variables */
+[data-theme="dark"] {
+  --bg-app: #090d16;
+  --bg-sidebar: #0f172a;
+  --bg-header: rgba(15, 23, 42, 0.8);
+  --card-bg: #1e293b;
+  --card-border: rgba(51, 65, 85, 0.5);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  --border-color: #334155;
+  --input-bg: #0f172a;
+  
+  --primary-light: hsl(var(--primary-h), var(--primary-s), 15%);
+  --success-light: hsl(142, 70%, 12%);
+  --warning-light: hsl(38, 92%, 12%);
+  --danger-light: hsl(350, 89%, 15%);
+  --info-light: hsl(199, 89%, 12%);
+  
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}

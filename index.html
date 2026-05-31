@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow Premium - Quản lý Công việc Cá nhân & Tổ chức</title>
+  <meta name="description" content="Ứng dụng quản lý công việc cá nhân và Kanban nhóm chuyên nghiệp, trực quan với hiệu năng vượt trội.">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="brand">
+        <div class="brand-icon">T</div>
+        <span class="brand-name">TaskFlow</span>
+      </div>
+      
+      <ul class="nav-menu">
+        <li class="nav-item active" data-tab="dashboard">
+          <a class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Tổng quan</span>
+          </a>
+        </li>
+        <li class="nav-item" data-tab="personal">
+          <a class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Việc cá nhân</span>
+          </a>
+        </li>
+        <li class="nav-item" data-tab="kanban">
+          <a class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+            <span>Bảng Kanban</span>
+          </a>
+        </li>
+        <li class="nav-item" data-tab="calendar">
+          <a class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Lịch biểu</span>
+          </a>
+        </li>
+        <li class="nav-item" data-tab="members">
+          <a class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Thành viên & Quyền</span>
+          </a>
+        </li>
+      </ul>
+      
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" id="theme-toggle">
+          <svg id="theme-icon-sun" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span id="theme-text">Giao diện tối</span>
+        </button>
+      </div>
+    </aside>
+    
+    <!-- Main Area -->
+    <main class="main-content">
+      
+      <!-- Header -->
+      <header class="app-header">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="menu-toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="search-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Tìm kiếm công việc..." id="global-search" class="search-input">
+          </div>
+        </div>
+        
+        <div class="header-actions">
+          <!-- Permissions Simulator -->
+          <div class="role-simulator">
+            <span class="role-label">Quyền:</span>
+            <select id="user-role-selector" class="role-select">
+              <option value="admin">Quản trị viên (Admin)</option>
+              <option value="manager">Quản lý (Manager)</option>
+              <option value="member">Thành viên (Member)</option>
+            </select>
+          </div>
+          
+          <button class="notification-btn" id="noti-btn" aria-label="Notifications">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notification-badge" id="noti-badge"></span>
+          </button>
+          
+          <!-- Profile user -->
+          <div class="user-profile">
+            <div class="user-info">
+              <span class="user-name" id="profile-user-name">Huỳnh Quang Việt</span>
+              <span class="user-role-tag" id="profile-user-role">Quản trị viên</span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100" alt="Avatar" class="user-avatar" id="profile-avatar">
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Tab Content -->
+      <section class="page-container" id="dashboard-tab">
+        <div class="card-header-flex" style="border:none; margin-bottom: 16px; padding:0;">
+          <div>
+            <h1 style="font-size: 24px; font-weight: 800;">Chào buổi sáng!</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Dưới đây là tổng hợp năng suất của bạn ngày hôm nay.</p>
+          </div>
+          <button class="btn btn-primary" id="dashboard-excel-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Xuất Excel
+          </button>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="stat-card" style="--accent: var(--primary); --accent-light: var(--primary-light);">
+            <div class="stat-info">
+              <span class="stat-label">Tổng công việc</span>
+              <span class="stat-value" id="stats-total">0</span>
+              <span class="stat-subtext" id="stats-total-sub">Cá nhân và Tổ chức</span>
+            </div>
+            <div class="stat-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+          </div>
+          <div class="stat-card" style="--accent: var(--success); --accent-light: var(--success-light);">
+            <div class="stat-info">
+              <span class="stat-label">Hoàn thành</span>
+              <span class="stat-value" id="stats-completed">0</span>
+              <span class="stat-subtext" id="stats-completed-sub">0% Tỉ lệ đạt được</span>
+            </div>
+            <div class="stat-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div class="stat-card" style="--accent: var(--warning); --accent-light: var(--warning-light);">
+            <div class="stat-info">
+              <span class="stat-label">Đang thực hiện</span>
+              <span class="stat-value" id="stats-pending">0</span>
+              <span class="stat-subtext" id="stats-pending-sub">Cần tập trung đẩy nhanh</span>
+            </div>
+            <div class="stat-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+          <div class="stat-card" style="--accent: var(--danger); --accent-light: var(--danger-light);">
+            <div class="stat-info">
+              <span class="stat-label">Khẩn cấp</span>
+              <span class="stat-value" id="stats-urgent">0</span>
+              <span class="stat-subtext" id="stats-urgent-sub">Sắp tới hạn hoặc quá hạn</span>
+            </div>
+            <div class="stat-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="analytics-section">
+          <!-- Main Chart -->
+          <div class="analytics-card">
+            <div class="card-header-flex">
+              <div class="card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <span>Năng suất & Công việc đã hoàn thành</span>
+              </div>
+              <div class="card-actions-row">
+                <button class="toggle-filter-btn active" data-range="week">Tuần này</button>
+                <button class="toggle-filter-btn" data-range="month">Tháng này</button>
+                <button class="toggle-filter-btn" data-range="all">Tất cả</button>
+              </div>
+            </div>
+            <div class="chart-container" id="bar-chart-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+          
+          <!-- Circular Chart -->
+          <div class="analytics-card">
+            <div class="card-header-flex">
+              <div class="card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+                <span>Tỉ lệ Hoàn thành</span>
+              </div>
+            </div>
+            <div class="progress-ring-container" id="donut-chart-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-rows">
+          <!-- Urgent tasks -->
+          <div class="analytics-card" style="min-height: 320px;">
+            <div class="card-header-flex">
+              <div class="card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span>Công việc khẩn cấp quan trọng</span>
+              </div>
+            </div>
+            <div class="task-list" id="dashboard-urgent-list" style="margin-top: 0;">
+              <!-- Urgent cards generated dynamically -->
+            </div>
+          </div>
+          
+          <!-- Active Team workspaces distribution -->
+          <div class="analytics-card" style="min-height: 320px;">
+            <div class="card-header-flex">
+              <div class="card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <span>Mật độ Công việc Tổ chức</span>
+              </div>
+            </div>
+            <div id="workspace-stats-bars" style="display: flex; flex-direction: column; gap: 20px;">
+              <!-- Workspace bars generated dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal Tasks Tab Content -->
+      <section class="page-container hidden" id="personal-tab">
+        <div class="personal-layout">
+          <!-- Sidebar filters inside Personal tab -->
+          <aside class="personal-sidebar">
+            <div>
+              <h3 class="sidebar-section-title">Thời gian</h3>
+              <ul class="list-categories">
+                <li class="category-link active" data-personal-filter="inbox">
+                  <div class="category-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <span>Hộp thư đến</span>
+                  </div>
+                  <span class="category-badge" id="badge-inbox">0</span>
+                </li>
+                <li class="category-link" data-personal-filter="today">
+                  <div class="category-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>Hôm nay</span>
+                  </div>
+                  <span class="category-badge" id="badge-today">0</span>
+                </li>
+                <li class="category-link" data-personal-filter="upcoming">
+                  <div class="category-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>Sắp tới</span>
+                  </div>
+                  <span class="category-badge" id="badge-upcoming">0</span>
+                </li>
+                <li class="category-link" data-personal-filter="important">
+                  <div class="category-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Quan trọng</span>
+                  </div>
+                  <span class="category-badge" id="badge-important">0</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="sidebar-section-title">Danh mục cá nhân</h3>
+              <ul class="list-custom-projects" id="personal-projects-list">
+                <!-- Rendered dynamically -->
+              </ul>
+              <button class="btn btn-secondary" style="width:100%; margin-top: 12px; font-size: 12.5px; padding: 8px 12px;" id="add-personal-project-btn">+ Tạo danh mục</button>
+            </div>
+          </aside>
+
+          <!-- List Content -->
+          <div class="personal-content">
+            <div class="card-header-flex" style="border:none; margin-bottom: 12px; padding:0;">
+              <div>
+                <h2 id="personal-list-title" style="font-size: 20px; font-weight: 700;">Hộp thư đến</h2>
+                <p style="color:var(--text-muted); font-size: 13.5px; margin-top:4px;" id="personal-list-subtitle">Tất cả công việc cá nhân của bạn.</p>
+              </div>
+              <button class="btn btn-primary" id="add-personal-task-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Thêm việc mới
+              </button>
+            </div>
+            
+            <div class="task-list" id="personal-tasks-container">
+              <!-- Tasks rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Kanban Organizational Tab Content -->
+      <section class="page-container hidden" id="kanban-tab">
+        <div class="kanban-wrapper">
+          <div class="kanban-workspace-header">
+            <div class="workspace-select-wrapper">
+              <label for="kanban-workspace-select" class="role-label" style="font-size:13px; color: var(--text-main);">Phòng ban:</label>
+              <select id="kanban-workspace-select" class="form-select" style="width:200px; padding: 6px 12px; font-weight:600;">
+                <!-- Workspaces/Departments rendered dynamically -->
+              </select>
+            </div>
+            
+            <div class="header-actions" style="gap:12px;">
+              <button class="btn btn-secondary" id="workspace-excel-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Xuất Excel phòng ban
+              </button>
+              <button class="btn btn-primary" id="add-kanban-task-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Thêm thẻ công việc
+              </button>
+            </div>
+          </div>
+
+          <!-- Bảng Kanban thực sự -->
+          <div class="kanban-board" id="kanban-columns-container">
+            <!-- 5 Columns rendered dynamically with Drag-over features -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Calendar Tab Content -->
+      <section class="page-container hidden" id="calendar-tab">
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <h2 id="calendar-month-year" style="font-size: 20px; font-weight: 700; color: var(--text-main);">Tháng 05, 2026</h2>
+            <div style="display:flex; gap: 8px;">
+              <button class="action-icon-btn" id="calendar-prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button class="toggle-filter-btn" id="calendar-today-btn" style="padding: 6px 14px;">Hôm nay</button>
+              <button class="action-icon-btn" id="calendar-next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="calendar-grid" id="calendar-days-grid">
+            <!-- Day labels and dates rendering dynamically -->
+          </div>
+        </div>
+        
+        <!-- Quick schedule overlay -->
+        <div class="analytics-card" style="margin-top: 24px; min-height: 200px;">
+          <div class="card-header-flex" style="border:none; margin-bottom: 12px; padding:0;">
+            <h3 class="card-title" id="calendar-selected-day-title">Công việc ngày 31/05/2026</h3>
+          </div>
+          <div class="task-list" id="calendar-day-tasks-list">
+            <!-- List of tasks due on selected day rendering dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Members and Permissions Tab Content -->
+      <section class="page-container hidden" id="members-tab">
+        <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px;">
+          <!-- Left column: Member List -->
+          <div class="analytics-card" style="min-height: 500px; display:flex; flex-direction:column;">
+            <div class="card-header-flex" style="border:none; margin-bottom: 16px; padding:0;">
+              <div>
+                <h2 style="font-size: 18px; font-weight: 700;">Quản lý Thành viên</h2>
+                <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Danh sách nhân sự tham gia trong tổ chức của bạn.</p>
+              </div>
+              <button class="btn btn-primary" id="add-member-btn" style="font-size:12.5px; padding:8px 14px;">+ Thêm mới</button>
+            </div>
+            
+            <div id="members-list-container" style="display:grid; grid-template-columns: 1fr; gap: 12px; overflow-y:auto; flex:1; max-height: 420px; padding-right:4px;">
+              <!-- Member cards rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Right column: Permissions matrix -->
+          <div class="analytics-card" style="min-height: 500px;">
+            <div class="card-header-flex" style="border:none; margin-bottom: 16px; padding:0;">
+              <div>
+                <h2 style="font-size: 18px; font-weight: 700;">Ma trận Phân quyền (Permission Matrix)</h2>
+                <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Tự tay bật/tắt quyền hạn của từng vai trò trong hệ thống.</p>
+              </div>
+            </div>
+            
+            <div style="overflow-x:auto;">
+              <table style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
+                <thead>
+                  <tr style="border-bottom:2px solid var(--border-color); color:var(--text-muted); font-weight:700;">
+                    <th style="padding:10px 8px; width:45%;">Quyền hạn (Hành động)</th>
+                    <th style="padding:10px 8px; text-align:center;">Admin</th>
+                    <th style="padding:10px 8px; text-align:center;">Manager</th>
+                    <th style="padding:10px 8px; text-align:center;">Member</th>
+                  </tr>
+                </thead>
+                <tbody id="permissions-matrix-tbody">
+                  <!-- Checkboxes rows rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+            
+            <div style="margin-top:20px; background-color:var(--primary-light); color:var(--primary); padding:12px; border-radius:var(--radius-md); font-size:12px; font-weight:550; border:1px solid var(--primary); line-height: 1.4;">
+              💡 Mẹo: Bất kỳ thay đổi tích chọn nào ở bảng trên sẽ lập tức cập nhật cấu hình phân quyền lưu trữ và áp dụng trực tiếp lên hành vi giả lập vai trò hiện hành!
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Modal 1: Personal Task Form Modal -->
+  <div class="modal-backdrop" id="personal-task-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="personal-modal-headline">Thêm việc cá nhân mới</h3>
+        <button class="modal-close-btn" data-close-modal="personal-task-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="personal-task-form">
+        <input type="hidden" id="personal-task-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="personal-title-input">Tên công việc <span style="color:var(--danger)">*</span></label>
+            <input type="text" id="personal-title-input" class="form-input" placeholder="Ví dụ: Đọc sách 30 phút, Chuẩn bị slide..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="personal-desc-input">Mô tả chi tiết</label>
+            <textarea id="personal-desc-input" class="form-textarea" placeholder="Nhập ghi chú chi tiết cho tác vụ này..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="personal-project-select">Danh mục</label>
+              <select id="personal-project-select" class="form-select">
+                <!-- Custom projects list options -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="personal-date-input">Ngày hết hạn <span style="color:var(--danger)">*</span></label>
+              <input type="date" id="personal-date-input" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="personal-priority-select">Độ ưu tiên</label>
+              <select id="personal-priority-select" class="form-select">
+                <option value="low">Thấp</option>
+                <option value="medium" selected>Trung bình</option>
+                <option value="high">Cao</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="personal-tag-input">Nhãn (tags)</label>
+              <input type="text" id="personal-tag-input" class="form-input" placeholder="Ví dụ: Học tập, Sức khỏe (phân cách bằng phẩy)">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="personal-task-modal">Hủy bỏ</button>
+          <button type="submit" class="btn btn-primary" id="personal-submit-btn">Lưu tác vụ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Kanban Workspace Task Form Modal (Add/Edit Organization tasks) -->
+  <div class="modal-backdrop" id="kanban-task-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="kanban-modal-headline">Thêm thẻ công việc nhóm</h3>
+        <button class="modal-close-btn" data-close-modal="kanban-task-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="kanban-task-form">
+        <input type="hidden" id="kanban-task-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="kanban-title-input">Tiêu đề công việc <span style="color:var(--danger)">*</span></label>
+            <input type="text" id="kanban-title-input" class="form-input" placeholder="Ví dụ: Thiết kế giao diện Dashboard..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="kanban-desc-input">Mô tả yêu cầu</label>
+            <textarea id="kanban-desc-input" class="form-textarea" placeholder="Nêu rõ mô tả chi tiết, liên kết tài liệu thiết kế hoặc API..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="kanban-project-tag">Tên dự án</label>
+              <input type="text" id="kanban-project-tag" class="form-input" placeholder="Ví dụ: Website Redesign, Module CRM" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="kanban-date-input">Ngày hết hạn <span style="color:var(--danger)">*</span></label>
+              <input type="date" id="kanban-date-input" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="kanban-priority-select">Độ ưu tiên</label>
+              <select id="kanban-priority-select" class="form-select">
+                <option value="low">Thấp</option>
+                <option value="medium" selected>Trung bình</option>
+                <option value="high">Cao</option>
+                <option value="urgent">Khẩn cấp 🚨</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="kanban-status-select">Trạng thái cột</label>
+              <select id="kanban-status-select" class="form-select">
+                <option value="backlog">Yêu cầu (Backlog)</option>
+                <option value="todo">Cần làm (To Do)</option>
+                <option value="in_progress">Đang thực hiện (In Progress)</option>
+                <option value="in_review">Kiểm tra (In Review)</option>
+                <option value="done">Hoàn thành (Done)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phân công thành viên</label>
+            <div id="kanban-members-checkboxes" style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; background-color: var(--input-bg); padding:12px; border-radius: var(--radius-md); max-height: 120px; overflow-y:auto; border: 1px solid var(--card-border);">
+              <!-- Checkboxes rendered dynamically via JS -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="kanban-task-modal">Hủy bỏ</button>
+          <button type="submit" class="btn btn-primary" id="kanban-submit-btn">Lưu công việc</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Detailed Kanban Card Modal (Comments, Activity logs, Role block display) -->
+  <div class="modal-backdrop" id="kanban-detail-modal">
+    <div class="modal-container" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <span class="kanban-card-project" id="detail-project-tag">WEBSITE REDESIGN</span>
+          <h3 class="modal-title" id="detail-title" style="margin-top: 4px;">Tiêu đề công việc</h3>
+        </div>
+        <button class="modal-close-btn" data-close-modal="kanban-detail-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Mô tả yêu cầu</label>
+          <p id="detail-desc" style="font-size: 13.5px; line-height: 1.5; color: var(--text-muted); background-color: var(--input-bg); padding: 16px; border-radius: var(--radius-md); border:1px solid var(--card-border);">Không có mô tả chi tiết.</p>
+        </div>
+
+        <div class="kanban-detail-meta">
+          <div>
+            <div class="detail-meta-label">Người thực hiện</div>
+            <div class="detail-meta-value" id="detail-members-container">
+              <!-- Avatars and Names -->
+            </div>
+          </div>
+          <div>
+            <div class="detail-meta-label">Chi tiết quản lý</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div class="detail-meta-value">
+                <span class="role-label">Độ ưu tiên:</span>
+                <span id="detail-priority-badge" class="priority-badge priority-high">High</span>
+              </div>
+              <div class="detail-meta-value">
+                <span class="role-label">Thời hạn:</span>
+                <span id="detail-due-date" style="font-weight:600;">31/05/2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="comments-section">
+          <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Thảo luận nhóm</span>
+            <span style="font-size: 11px; color:var(--text-light)" id="comments-count">0 bình luận</span>
+          </label>
+          <div class="comments-list" id="detail-comments-list">
+            <!-- Comments rendering dynamically -->
+          </div>
+          <div class="comment-input-wrapper">
+            <input type="text" placeholder="Viết bình luận mới..." class="form-input" id="new-comment-input">
+            <button class="btn btn-primary" id="submit-comment-btn" style="padding: 10px 16px;">Gửi</button>
+          </div>
+        </div>
+
+        <!-- Activity logs -->
+        <div>
+          <label class="form-label">Lịch sử hoạt động</label>
+          <div class="activity-list" id="detail-activity-list">
+            <!-- Activities log render -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <div>
+          <button class="btn btn-danger" id="detail-delete-btn">Xóa thẻ</button>
+          <button class="btn btn-secondary" id="detail-edit-btn" style="margin-left: 8px;">Chỉnh sửa</button>
+        </div>
+        <button class="btn btn-primary" data-close-modal="kanban-detail-modal">Đóng cửa sổ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Member Form Modal (Add/Edit Members) -->
+  <div class="modal-backdrop" id="member-form-modal">
+    <div class="modal-container" style="max-width: 450px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="member-modal-headline">Thêm thành viên tổ chức</h3>
+        <button class="modal-close-btn" data-close-modal="member-form-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="member-form">
+        <input type="hidden" id="member-form-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="member-name-input">Họ và tên thành viên <span style="color:var(--danger)">*</span></label>
+            <input type="text" id="member-name-input" class="form-input" placeholder="Ví dụ: Nguyễn Văn B, Trần Thị C..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="member-role-input">Chức danh / Chức vụ <span style="color:var(--danger)">*</span></label>
+            <input type="text" id="member-role-input" class="form-input" placeholder="Ví dụ: UI/UX Designer, Tester, Developer..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="member-avatar-select">Ảnh đại diện (Avatar)</label>
+            <select id="member-avatar-select" class="form-select">
+              <option value="av-1" selected>Avatar Nam 1 (Chuyên nghiệp)</option>
+              <option value="av-2">Avatar Nữ 1 (Thân thiện)</option>
+              <option value="av-3">Avatar Nam 2 (Trẻ trung)</option>
+              <option value="av-4">Avatar Nữ 2 (Hiện đại)</option>
+              <option value="av-5">Avatar Nam 3 (Năng động)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="member-form-modal">Hủy bỏ</button>
+          <button type="submit" class="btn btn-primary" id="member-submit-btn">Lưu thành viên</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- App scripts logic -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
